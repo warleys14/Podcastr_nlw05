@@ -26,6 +26,29 @@ body {
     background: var(--gray-50);
 }
 
+//essas medidas em rem abaixo são utilizadas para ser acessível dependendo do dispositivo. Porque o número definido representa
+//o tamanho daquilo em relação à medida do tamanho da fonte do html (que por padrão é 16px). Então, se uma pessoa
+//altera o tamanho das suas fontes no sistema do dispositivo dele, isso vai se adaptar, já se eu usar pixels, não vai
+//Dado isso, são usadas essas notações de media query para mudar o tamanho da fonte do html como um todo, e assim
+//interferir nos rems abaixo, dependendo do tamanho da tela do usuário
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 93.75%; //Equivalente a 15px
+    }
+}
+
+@media (max-width: 720px) {
+    html {
+        font-size: 87.5%; //Equivalente a 14px
+    }
+}
+
+
+body {
+    background: var(--gray-50);
+}
+
 body,
 input,
 textarea,

@@ -873,6 +873,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^2.21.3":
+  version: 2.21.3
+  resolution: "date-fns@npm:2.21.3"
+  checksum: a88c9da180cde3a3426c09cacf3f6bffb615e31d73e458da90e9d5304432eea2e0b360f40ee4fd5ca187659e8a7f8f667db902a3eb033e8d2d1522b1cc1b9e32
+  languageName: node
+  linkType: hard
+
 "debug@npm:2":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -2325,6 +2332,7 @@ fsevents@~2.3.1:
   dependencies:
     "@types/node": ^15.0.2
     "@types/react": ^17.0.5
+    date-fns: ^2.21.3
     next: 10.2.0
     react: 17.0.2
     react-dom: 17.0.2

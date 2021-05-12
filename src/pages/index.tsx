@@ -1,5 +1,7 @@
+import { Header } from "../components/Header";
+
 export default function Home() {
   return (
-    <h1>React com NextJs</h1>
+    <Header />
   )
 }
