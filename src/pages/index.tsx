@@ -4,6 +4,7 @@ import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 import { GetStaticProps } from "next";
+import Link from "next/link";
 import { parseISO } from "date-fns";
 import Image from "next/image";
 
@@ -14,7 +15,6 @@ type Episode = {
   id: string;
   title: string;
   thumbnail: string;
-  description: string;
   members: string;
   duration: number;
   durationAsString: string;
@@ -45,7 +45,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 <Image src={episode.thumbnail} alt={episode.title} width={192} height={192} objectFit="cover" />
 
                 <div className={styles.episodeDetails}>
-                  <a href="">{episode.title}</a>
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
+
                   <p>{episode.members}</p>
                   <span>{episode.publishedAt}</span>
                   <span>{episode.durationAsString}</span>
@@ -67,12 +70,14 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
           </thead>
 
           <tbody>
@@ -83,7 +88,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     <Image width={120} height={120} src={episode.thumbnail} alt={episode.title} objectFit="cover" />
                   </td>
                   <td>
-                    <a href="">{episode.title}</a>
+                    <Link href={`/episodes/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
+
                   </td>
                   <td>
                     {episode.members}
@@ -132,7 +140,6 @@ export const getStaticProps = async (context) => {
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
       duration: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      description: episode.description,
       url: episode.file.url,
     };
   })
