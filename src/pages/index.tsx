@@ -1,12 +1,22 @@
 import { Header } from "../components/Header";
-import { GetStaticProps } from 'next';
 import { api } from "../services/api";
+import format from 'date-fns/format';
+import ptBR from 'date-fns/locale/pt-BR';
+import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
+import { GetStaticProps } from "next";
+import { parseISO } from "date-fns";
+
 
 type Episode = {
   id: string;
   title: string;
+  thumbnail: string;
+  description: string;
   members: string;
-  // ...
+  duration: number;
+  durationAsString: string;
+  url: string,
+  publishedAt: string;
 }
 
 type HomeProps = {
@@ -27,7 +37,9 @@ export default function Home(props: HomeProps) {
 //Utilizando SSG, para poder gerar sites estáticos, e melhorar muito a performance da aplicação.
 //Usando essa função só é feita uma nova requisição para a API de 8h em 8h, então quem acessar antes recebe uma versão
 //estática da página. E isso faz carregar MUITO rápido. 
-export const getStaticProps: GetStaticProps = async () => {
+//Aqui eu também uso o pacote json-server para poder simular uma API, só que rodando local, e assim acessar os dados dos podcasts
+//Tava dando erro quando tipava o getStaticProps, então tirei, e agr n tá mais dando erro
+export const getStaticProps = async (context) => {
   const response = await api.get('episodes', {
     params: {
       _limit: 12,
@@ -35,15 +47,31 @@ export const getStaticProps: GetStaticProps = async () => {
       _order: 'desc'
     }
   });
+
   const data = response.data;
+
+  const episodes = data.map(episode => {
+    return {
+      id: episode.id,
+      title: episode.title,
+      thumbnail: episode.thumbnail,
+      members: episode.members,
+      publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
+      duration: Number(episode.file.duration),
+      durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
+      description: episode.description,
+      url: episode.file.url,
+    };
+  })
 
   return {
     props: {
-      episodes: data,
+      episodes: episodes,
     },
     revalidate: 60 * 60 * 8
   }
 }
+
 
 //Outra forma de fazer isso é usando SPA, o mais comum no React, e que faz a requisição sempre que alguém acesssa
 /*
