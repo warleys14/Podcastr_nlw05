@@ -1,6 +1,6 @@
 .playerContainer {
-    padding: 3rem 4rem;
-    width: 24.5rem;
+    padding: 3rem 3.5rem;
+    width: 21.5rem;
     height: 100vh;
 
     background: var(--purple-500);
@@ -45,7 +45,7 @@
     border-radius: 1.5rem;
     background: linear-gradient(143.8deg, rgba(145, 100, 250, 0.8) rgba(0, 0, 0, 8) 100%);
 
-    padding: 4rem;
+    padding: 2rem;
     text-align: center;
 
     display: flex;
@@ -83,7 +83,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 2.5rem;
-    gap: 1.5rem;
+    gap: 1.4rem;
 
     button {
         background: transparent;
@@ -92,7 +92,7 @@
 
         &.playButton {
             width: 4rem;
-            height: 4rem;
+            height: 3rem;
             border-radius: 1rem;
             background: var(--purple-400);
         }

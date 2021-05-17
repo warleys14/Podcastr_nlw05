@@ -5,6 +5,9 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 import { GetStaticProps } from "next";
 import { parseISO } from "date-fns";
+import Image from "next/image";
+
+import styles from './home.module.scss';
 
 
 type Episode = {
@@ -20,15 +23,48 @@ type Episode = {
 }
 
 type HomeProps = {
-  episodes: Episode[];
+  latestEpisodes: Episode[];
+  allEpisodes: Episode[];
 }
 
-export default function Home(props: HomeProps) {
+export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   return (
-    <div>
-      <h1> Index</h1>
-      <p>{JSON.stringify(props.episodes)}</p>
+    <div className={styles.homepage}>
+      <section className={styles.latestEpisodes}>
+        <h2>Últimos Lançamentos</h2>
 
+        <ul>
+          {latestEpisodes.map(episode => {
+            return (
+              //Esse key usado abaixo eh uma propriedade pra performance do React.
+              //Quando se usa um map, e eh gerado uma lista de componentes assim, o elemento que eh
+              //retornado logo em seguida precisa ter uma propriedade unica daquele elemento.
+              //Pq com esse dado único o React consegue otimizar o carregamento da pagina em caso de exclusao
+              //de um item especifico, ou na insercao de um item especifico e etc
+              <li key={episode.id}>
+                <Image src={episode.thumbnail} alt={episode.title} width={192} height={192} objectFit="cover" />
+
+                <div className={styles.episodeDetails}>
+                  <a href="">{episode.title}</a>
+                  <p>{episode.members}</p>
+                  <span>{episode.publishedAt}</span>
+                  <span>{episode.durationAsString}</span>
+                </div>
+
+                <button type="button">
+                  <img src="/play-green.svg" alt="Tocar episódio" />
+                </button>
+
+              </li>
+            )
+          })}
+        </ul>
+      </section>
+
+
+      <section className={styles.allEpisodes}>
+
+      </section>
     </div>
 
   )
@@ -64,9 +100,13 @@ export const getStaticProps = async (context) => {
     };
   })
 
+  const latestEpisodes = episodes.slice(0, 2);
+  const allEpisodes = episodes.slice(2, episodes.length);
+
   return {
     props: {
-      episodes: episodes,
+      latestEpisodes,
+      allEpisodes,
     },
     revalidate: 60 * 60 * 8
   }
