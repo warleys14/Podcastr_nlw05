@@ -60,9 +60,27 @@ export default function Episode({ episode }: EpisodeProps) {
 }
 
 //Método usado para páginas estaticas que também são dinâmicas
+//Com ela, no momento de build algumas paginas que tem parametros, como essa do episódio,
+//ou seja, são estáticas e dinâmicas, são carregadas previamente na build pelo next
 export const getStaticPaths: GetStaticPaths = async () => {
+    const { data } = await api.get('episodes', {
+        params: {
+            _limit: 2,
+            _sort: 'published_at',
+            _order: 'desc'
+        }
+    })
+
+    const paths = data.map(episode => {
+        return {
+            params: {
+                slug: episode.id
+            }
+        }
+    })
+
     return {
-        paths: [],
+        paths,
         fallback: 'blocking'
     }
 }
