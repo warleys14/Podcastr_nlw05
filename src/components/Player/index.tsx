@@ -13,7 +13,11 @@ export function Player() {
     const { episodeList,
         currentEpisodeIndex,
         isPlaying,
+        isLooping,
+        isShuffling,
         tooglePlay,
+        toogleLoop,
+        toogleShuffling,
         playNext,
         playPrevious,
         setPlayingState,
@@ -84,13 +88,18 @@ export function Player() {
                         src={episode.url}
                         ref={audioRef} //Essa ref eh usada para conseguir no React pegar o elemento HTML audio, e assim conseguir parar de tocar quando pausar
                         autoPlay
+                        loop={isLooping}
                         onPlay={() => setPlayingState(true)}
                         onPause={() => setPlayingState(false)}
                     />
                 )}
 
                 <div className={styles.buttons}>
-                    <button type="button" disabled={!episode}>
+                    <button
+                        type="button"
+                        disabled={!episode || episodeList.length === 1}
+                        onClick={toogleShuffling}
+                        className={isShuffling ? styles.isActive : ''}>
                         <img src="/shuffle.svg" alt="Embaralhar" />
                     </button>
 
@@ -115,7 +124,11 @@ export function Player() {
                         <img src="/play-next.svg" alt="Tocar próxima" />
                     </button>
 
-                    <button type="button" disabled={!episode}>
+                    <button
+                        type="button"
+                        disabled={!episode}
+                        onClick={toogleLoop}
+                        className={isLooping ? styles.isActive : ''}>
                         <img src="/repeat.svg" alt="Repetir" />
                     </button>
                 </div>
