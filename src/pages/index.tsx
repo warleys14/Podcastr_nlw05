@@ -79,7 +79,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
 
       <section className={styles.allEpisodes}>
-        <h2>Todos episódios</h2>
+        <h2>Todos os Episódios</h2>
 
         <table cellSpacing={0}>
           <thead>
