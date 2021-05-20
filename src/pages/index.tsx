@@ -9,8 +9,7 @@ import { parseISO } from "date-fns";
 import Image from "next/image";
 
 import styles from './home.module.scss';
-import { useContext } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
+import { usePlayer } from "../contexts/PlayerContext";
 
 
 type Episode = {
@@ -30,7 +29,9 @@ type HomeProps = {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { play } = useContext(PlayerContext);
+  const { playList } = usePlayer();
+
+  const episodeList = [...latestEpisodes, ...allEpisodes]; //Eh sempre melhor copiar a lista do que pegar direto dela, pra não ferir o princípio da imutabilidade
 
   return (
     <div className={styles.homepage}>
@@ -38,7 +39,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Últimos Lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map(episode => {
+          {latestEpisodes.map((episode, index) => {
             return (
               //Esse key usado abaixo eh uma propriedade pra performance do React.
               //Quando se usa um map, e eh gerado uma lista de componentes assim, o elemento que eh
@@ -58,7 +59,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button" onClick={() => play(episode)}>
+                <button type="button" onClick={() => playList(episodeList, index)}>
                   <img src="/play-green.svg" alt="Tocar episódio" />
                 </button>
 
@@ -85,11 +86,16 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
           </thead>
 
           <tbody>
-            {allEpisodes.map(episode => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td style={{ width: 55 }}>
-                    <Image width={120} height={120} src={episode.thumbnail} alt={episode.title} objectFit="cover" />
+                    <Image
+                      width={120}
+                      height={120}
+                      src={episode.thumbnail}
+                      alt={episode.title}
+                      objectFit="cover" />
                   </td>
                   <td>
                     <Link href={`/episodes/${episode.id}`}>
@@ -103,7 +109,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 80 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button">
+                    <button type="button" onClick={() => playList(episodeList, index + latestEpisodes.length)}>
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>

@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef } from 'react';
-import { PlayerContext } from '../../contexts/PlayerContext';
+import { useEffect, useRef } from 'react';
+import { usePlayer } from '../../contexts/PlayerContext';
 import styles from './styles.module.scss';
 import Image from "next/image";
 
@@ -14,8 +14,12 @@ export function Player() {
         currentEpisodeIndex,
         isPlaying,
         tooglePlay,
+        playNext,
+        playPrevious,
         setPlayingState,
-    } = useContext(PlayerContext);
+        hasPrevious,
+        hasNext
+    } = usePlayer();
 
     useEffect(() => {
         if (!audioRef.current) {
@@ -90,7 +94,7 @@ export function Player() {
                         <img src="/shuffle.svg" alt="Embaralhar" />
                     </button>
 
-                    <button type="button" disabled={!episode}>
+                    <button type="button" onClick={playPrevious} disabled={!episode || !hasPrevious}>
                         <img src="/play-previous.svg" alt="Tocar anterior" />
                     </button>
 
@@ -107,7 +111,7 @@ export function Player() {
 
                     </button>
 
-                    <button type="button" disabled={!episode}>
+                    <button type="button" onClick={playNext} disabled={!episode || !hasNext}>
                         <img src="/play-next.svg" alt="Tocar próxima" />
                     </button>
 
