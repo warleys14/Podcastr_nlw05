@@ -2,7 +2,7 @@
 
 <p> Site de Podcasts <strong>desenvolvido como aprendizado durante a NLW 05 da Rocketseat</strong>. </p>
 
-<a href="https://ibb.co/PgP239F"><img src="https://i.ibb.co/tDv0kxQ/podcastr.png" alt="podcastr" border="0"></a>
+<a href="https://ibb.co/HrvZzCY"><img src="https://i.ibb.co/vJ59Phm/podcastr-Redondo.png" alt="podcastr-Redondo" border="0"></a>
 
 
 # 👀 Sobre o projeto
@@ -37,6 +37,11 @@ yarn server
 ```
 yarn start
 ```
+
+# 🧐 Próximos Passos
+- Tornar o Podcastr responsivo;
+- Criar versão PWA do Podcastr;
+- Criar tema Dark pro Podcastr.
 
 # 🤜🤛 Contato
 Se você tiver alguma dúvida ou quiser entrar em contato comigo, me mande um e-mail em: wss@cin.ufpe.br
